@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
 
 
-// when connecting to the database we use try catch block to handle errors
+// when connecting to the database we everytime use try catch block to handle errors & the async await method 
 export const connectToDB = async () => {
     try{
         console.log(`\nAttempting MongoDB connection...`);

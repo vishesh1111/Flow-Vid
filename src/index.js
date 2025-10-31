@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import express from "express";
 import { DB_NAME } from "./constants.js";
 import connectToDB from "./db/index.js";
+import userRouter from "./routes/user.routes.js";
+
 
 // Load environment variables. We resolve the .env path relative to the project root
 // so running `npm run dev` from the repo root works regardless of where this file lives.
@@ -32,12 +34,16 @@ app.get('/health', (req, res) => {
     });
 });
 
+// Routes declaration
+app.use("/api/v1/users", userRouter);
+
 // connect after dotenv has loaded
 connectToDB()
 .then(() => {
     // Start server only after successful DB connection
     app.listen(process.env.PORT || 8000, () => {
-        console.log(`⚡️ Server is running at port: ${process.env.PORT || 8000}`);
+        console.log(` Server is running at port:
+             ${process.env.PORT || 8000}`);
     });
 })
 .catch((err) => {
