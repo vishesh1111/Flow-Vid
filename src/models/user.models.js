@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 
@@ -65,7 +65,7 @@ userSchema.methods.isPasswordMatched  =  async function (enteredPassword) {
 }  
 
 
-userSchema.methodsgenerateAccessToken = function() {
+userSchema.methods.generateAccessToken = function() {
     return jwt.sign({
         _id: this._id,
         email: this.email,
@@ -77,7 +77,7 @@ userSchema.methodsgenerateAccessToken = function() {
     })
 
 }
-userSchema.methodsgenerateRefreshToken = function() {
+userSchema.methods.generateRefreshToken = function() {
     return jwt.sign({
           _id: this._id,
     },

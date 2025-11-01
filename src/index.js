@@ -7,9 +7,8 @@ import connectToDB from "./db/index.js";
 import userRouter from "./routes/user.routes.js";
 
 
-// Load environment variables. We resolve the .env path relative to the project root
-// so running `npm run dev` from the repo root works regardless of where this file lives.
-dotenv.config({ path: path.resolve(process.cwd(), 'public/temp/.env') });
+// Load environment variables from the root directory
+dotenv.config();
 
 const app = express();
 
