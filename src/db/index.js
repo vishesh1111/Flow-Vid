@@ -15,10 +15,7 @@ export const connectToDB = async () => {
         console.log(`MongoDB URL: ${sanitizedUrl}`);
         console.log(`DB_NAME: ${DB_NAME}`);
         
-        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        })
+        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`)
         console.log(`\nMongoDB Connected !! DB HOST: ${connectionInstance.connection.host}`);
     }
     catch(error) {

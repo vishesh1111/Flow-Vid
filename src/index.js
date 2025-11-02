@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import mongoose from "mongoose";
 import express from "express";
+import cookieParser from "cookie-parser";
 import { DB_NAME } from "./constants.js";
 import connectToDB from "./db/index.js";
 import userRouter from "./routes/user.routes.js";
@@ -14,6 +15,7 @@ const app = express();
 
 // Basic middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // Basic routes
 app.get('/', (req, res) => {
@@ -35,6 +37,22 @@ app.get('/health', (req, res) => {
 
 // Routes declaration
 app.use("/api/v1/users", userRouter);
+
+// Global error handler - should be after all routes
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    
+    console.error("Error:", err);
+    
+    res.status(statusCode).json({
+        statusCode,
+        message,
+        success: false,
+        errors: err.errors || [],
+        stack: process.env.NODE_ENV === "development" ? err.stack : undefined
+    });
+});
 
 // connect after dotenv has loaded
 connectToDB()
