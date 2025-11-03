@@ -48,12 +48,24 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, "User with email or username already exists");
   }
 
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  [0]?.path;
-
+  // Handle file uploads
+  const avatarLocalPath = req.files?.avatar?.[0]?.path;
   let coverImageLocalPath;
-  if(req.files && req.files?.coverImage.length >0){
-    coverImageLocalPath = req.files?.coverImage[0].path;
+  if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
+
+  // Check if avatar is provided (required field)
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+
+  // Upload files to cloudinary
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+  const coverImage = coverImageLocalPath ? await uploadOnCloudinary(coverImageLocalPath) : null;
+
+  if (!avatar) {
+    throw new ApiError(400, "Failed to upload avatar");
   }
 
   // Create user object - create entry in db
@@ -62,8 +74,8 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email.toLowerCase().trim(),
     password,
     userName: userName.toLowerCase().trim(),
-    avatar: "https://via.placeholder.com/150", // Temporary placeholder avatar
-    coverImage: ""
+    avatar: avatar.url,
+    coverImage: coverImage?.url || ""
   });
 
   // Remove password and refresh token field from response
@@ -338,4 +350,87 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage };
+const getUserChannelProfile =  asyncHandler(async(req,res) => {
+  const {userName} =req.params
+  if(!userName) {
+    throw new ApiError(400, "Username is Missing");
+  }
+
+  const channel = await User.aggregate([
+    {
+      $match: 
+      {userName: userName?.toLowerCase}
+    },
+    {
+
+      // 1st Pipeline 
+      $lookup:{
+        from : "subcriptions",
+        localField: "_id",
+        foreignField: "channelId",
+        as: "subscribersData"
+    },
+    },
+
+    // 2nd Pipeline
+    {
+      $lookup:{
+        from : "subcriptions",
+        localField: "_id",
+        foreignField: "subscriber",
+        as: "subscribedTo"
+    },
+    },
+    
+
+    //3rd Pipeline
+    {
+    $addFields: {
+      // this is the method of counting the numbers of subscribers {$ signs make it field }
+      subscribersCount: { $size: "$subscribersData" },
+      channelsSubscribedToCount: { $size: "$subscribedTo" },
+      isSubscribed:{
+        $cond:{
+          if:{
+            $in: [req.user?._id, "$subscribersData.subscriber"]
+          },
+          then: true,
+          else: false
+        }
+      }
+    }
+    },
+
+    //4th Pipeline
+ {
+    $project: {
+      fullName:1,
+      userName:1,
+      avatar:1,
+      coverImage:1,
+      subscribersCount:1,
+      channelsSubscribedToCount:1,
+      isSubscribed:1,
+      bio:1,
+      createdAt:1,
+      email:1,
+    }
+  }
+  ])
+
+  if(!channel?.length) {
+    throw new ApiError(404, "Channel not found");
+  }
+
+  return res
+  .status(200)
+  .json(
+      new ApiResponse(
+          200,
+          channel[0],
+          "User channel profile fetched successfully"
+      )
+    )
+})
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile };
