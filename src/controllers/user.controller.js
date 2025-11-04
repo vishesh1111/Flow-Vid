@@ -1,3 +1,14 @@
+/* theory :-
+Routes = it defines what endpoints exists and which controller handles it 
+Controllers = it defines what happens when a request is made to a particular endpoint
+Models = define how data look and is stored in the database
+MiddleWare = defines things that should happen before/after the controller logic  
+
+*/
+
+
+
+
 import asyncHandler from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.models.js";
@@ -10,13 +21,15 @@ import jwt from "jsonwebtoken";
 
 
 
+// finds the user by thier userIDS  and calls model methods both generateAccess & refresh Tokens
+// it stores the new refresh token in the database and returns both tokens
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
-    user.refreshToken = refreshToken;
+    user.refershToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
@@ -25,6 +38,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+// extracts userData From the request body
 const registerUser = asyncHandler(async (req, res) => {
   // Get user details from request body
   const { fullName, email, userName, password } = req.body;
@@ -94,6 +108,8 @@ const registerUser = asyncHandler(async (req, res) => {
   );
 });
 
+
+// extracting login credentials from request body
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
 
@@ -101,6 +117,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Username or email is required");
   }
 
+  // find theUser by username or email
   const existingUser = await User.findOne({
     $or: [{ username }, { email }],
   });
@@ -114,8 +131,12 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid Password");
   }
 
+
+// verify password using bcrypt method
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(existingUser._id);
 
+
+  // generate tokens 
   const loggedInUser = await User.findById(existingUser._id).select("-password -refreshToken");
 
   const options = {
@@ -143,6 +164,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     { new: true }
   );
 
+  // remove the user's refresh token from DB
   const options = {
     httpOnly: true,
     secure: true,
@@ -155,7 +177,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "User logged out successfully"));
 });
 
-
+// handles generating a new access token when it expires using the refresh token
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
 
@@ -181,6 +203,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
        httpOnly: true,
        secure: true,
    }
+
+   // generate new tokens and send them in response 
    const {accessToken, newrefreshToken} = await generateAccessAndRefreshTokens(user._id)
  
    return res
@@ -202,7 +226,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 });
 
-
+// changing password for current logged in user
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { currentPassword, newPassword} = req.body;
 
@@ -241,6 +265,8 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     )
 })
 
+
+// update account details for current logged in user
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullName, userName, bio } = req.body;
 
@@ -273,6 +299,7 @@ return res
 
 })
 
+// update user avatar for current logged in user
 const updateUserAvatar = asyncHandler(async (req, res) => {
  const avatarLocalPath = req.file?.path
 

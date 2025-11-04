@@ -52,7 +52,7 @@ const userSchema = new Schema({
 
 })
 
-
+// password HashingMiddleware
 userSchema.pre("save", async function (next) {
     if(!this.isModified("password")) 
         return next();
@@ -60,11 +60,12 @@ userSchema.pre("save", async function (next) {
     next();
 } )
 
+//Password Comparison Method
 userSchema.methods.isPasswordMatched  =  async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }  
 
-
+// generation of access token
 userSchema.methods.generateAccessToken = function() {
     return jwt.sign({
         _id: this._id,
@@ -75,8 +76,9 @@ userSchema.methods.generateAccessToken = function() {
     process.env.ACCESS_TOKEN_SECRET,{
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY
     })
-
 }
+
+// generation of refresh token
 userSchema.methods.generateRefreshToken = function() {
     return jwt.sign({
           _id: this._id,
