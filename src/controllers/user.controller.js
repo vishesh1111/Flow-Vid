@@ -25,21 +25,37 @@ import jwt from "jsonwebtoken";
 // it stores the new refresh token in the database and returns both tokens
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
+    console.log("Finding user with ID:", userId);
     const user = await User.findById(userId);
+    
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
+    console.log("Generating access token...");
     const accessToken = user.generateAccessToken();
+    console.log("Access token generated:", accessToken ? "Success" : "Failed");
+    
+    console.log("Generating refresh token...");
     const refreshToken = user.generateRefreshToken();
+    console.log("Refresh token generated:", refreshToken ? "Success" : "Failed");
 
     user.refershToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
   } catch (error) {
+    console.error("Token generation error:", error);
     throw new ApiError(500, "Something went wrong while generating tokens");
   }
 };
 
 // extracts userData From the request body
 const registerUser = asyncHandler(async (req, res) => {
+  // Debug: Log what we receive
+  console.log("Request body:", req.body);
+  console.log("Request files:", req.files);
+
   // Get user details from request body
   const { fullName, email, userName, password } = req.body;
 
@@ -69,18 +85,9 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImageLocalPath = req.files.coverImage[0].path;
   }
 
-  // Check if avatar is provided (required field)
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required");
-  }
-
-  // Upload files to cloudinary
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
+  // Upload files to cloudinary (both are optional now)
+  const avatar = avatarLocalPath ? await uploadOnCloudinary(avatarLocalPath) : null;
   const coverImage = coverImageLocalPath ? await uploadOnCloudinary(coverImageLocalPath) : null;
-
-  if (!avatar) {
-    throw new ApiError(400, "Failed to upload avatar");
-  }
 
   // Create user object - create entry in db
   const user = await User.create({
@@ -88,7 +95,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email.toLowerCase().trim(),
     password,
     userName: userName.toLowerCase().trim(),
-    avatar: avatar.url,
+    avatar: avatar?.url || "https://via.placeholder.com/150", // Use placeholder if no avatar
     coverImage: coverImage?.url || ""
   });
 
