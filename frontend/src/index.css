@@ -2,48 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply box-border;
-  }
-  
-  body {
-    @apply m-0 bg-yt-black text-yt-spec-text-primary antialiased;
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  }
-
-  html {
-    @apply scroll-smooth;
-  }
-
-  /* Remove default focus outline and use custom */
-  *:focus {
-    @apply outline-none;
-  }
-
-  *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-yt-blue;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@layer components {
-  /* Clean button styles */
-  .btn-primary {
-    @apply bg-yt-blue hover:bg-blue-600 text-white font-medium px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md;
-  }
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0f0f0f;
+  color: #f1f1f1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
 
-  .btn-secondary {
-    @apply bg-yt-gray hover:bg-yt-light-gray text-yt-spec-text-primary font-medium px-4 py-2 rounded-lg transition-all duration-200;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  /* Clean input styles */
-  .input-field {
-    @apply w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2.5 text-yt-spec-text-primary placeholder-yt-spec-text-secondary focus:border-yt-blue transition-colors duration-200;
-  }
+*:focus {
+  outline: none;
+}
 
-  /* Card styles */
-  .card {
-    @apply bg-yt-light-black border border-gray-800 rounded-2xl p-6 shadow-lg;
-  }
+*:focus-visible {
+  outline: 2px solid #3ea6ff;
+  outline-offset: 2px;
+}
+
+/* YouTube-style scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #717171;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #909090;
+}
+
+/* Thin scrollbar for sidebar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #606060;
+  border-radius: 3px;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

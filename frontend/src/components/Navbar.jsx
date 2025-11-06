@@ -10,81 +10,89 @@ const Navbar = ({ user, onLogout }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-yt-black/95 backdrop-blur-md border-b border-white/5 z-50">
-      <div className="flex items-center justify-between h-14 px-4 max-w-[2000px] mx-auto">
-        {/* Logo - Clean and Minimal */}
-        <Link to="/" className="flex items-center gap-1 hover:opacity-80 transition-opacity flex-shrink-0">
-          <svg className="w-7 h-7 text-yt-red" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/>
-          </svg>
-          <span className="text-lg font-bold tracking-tight">YouTube</span>
-        </Link>
+    <nav className="fixed top-0 left-0 right-0 bg-[#0f0f0f] z-50 h-14">
+      <div className="flex items-center justify-between h-full px-4">
+        {/* YouTube Logo - Exact Replica */}
+        <div className="flex items-center gap-4 min-w-[169px]">
+          <button className="p-1 hover:bg-white/10 rounded-full transition-colors">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+          </button>
+          <Link to="/" className="flex items-center gap-1">
+            <svg className="w-[90px] h-5" viewBox="0 0 90 20" fill="none">
+              <g>
+                <path d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 0 14.285 0 14.285 0C14.285 0 5.35042 0 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C0 5.35042 0 10 0 10C0 10 0 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z" fill="#FF0000"/>
+                <path d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z" fill="white"/>
+              </g>
+              <g>
+                <path d="M34.6024 13.0036L31.3945 1.41846H34.1932L35.3174 6.6701C35.6043 7.96361 35.8136 9.06662 35.95 9.97913H36.0323C36.1264 9.32532 36.3381 8.22937 36.665 6.68892L37.8291 1.41846H40.6278L37.3799 13.0036V18.561H34.6001V13.0036H34.6024Z" fill="white"/>
+                <path d="M41.4697 18.1937C40.9053 17.8127 40.5031 17.22 40.2632 16.4157C40.0257 15.6114 39.9058 14.5437 39.9058 13.2078V11.3898C39.9058 10.0422 40.0422 8.95805 40.315 8.14196C40.5878 7.32588 41.0135 6.72851 41.592 6.35457C42.1706 5.98063 42.9302 5.79248 43.871 5.79248C44.7976 5.79248 45.5384 5.98298 46.0981 6.36398C46.6555 6.74497 47.0508 7.34234 47.2790 8.15137C47.5095 8.96275 47.624 10.0422 47.624 11.3898V13.2078C47.624 14.5437 47.5095 15.6161 47.2790 16.4251C47.0508 17.2317 46.6508 17.8291 46.0790 18.2031C45.5096 18.5772 44.7598 18.7677 43.8287 18.7677C42.8693 18.7677 42.0319 18.5772 41.4697 18.1937ZM44.6353 16.2323C44.7905 15.8231 44.8705 15.1575 44.8705 14.2309V10.3292C44.8705 9.43077 44.7929 8.77225 44.6353 8.35833C44.4777 7.94206 44.2026 7.7351 43.8074 7.7351C43.4265 7.7351 43.156 7.94206 42.9914 8.35833C42.8268 8.77461 42.7445 9.43077 42.7445 10.3292V14.2309C42.7445 15.1575 42.8268 15.8254 42.9914 16.2323C43.156 16.6415 43.4289 16.8461 43.8074 16.8461C44.2026 16.8461 44.4777 16.6415 44.6353 16.2323Z" fill="white"/>
+                <path d="M56.8154 18.5634H54.6094L54.3648 17.03H54.3037C53.7039 18.1871 52.8055 18.7656 51.6061 18.7656C50.7759 18.7656 50.1621 18.4928 49.767 17.9496C49.3719 17.4039 49.1743 16.5526 49.1743 15.3955V6.03751H51.9942V15.2308C51.9942 15.7906 52.0553 16.188 52.1776 16.4256C52.2999 16.6631 52.5045 16.783 52.7914 16.783C53.036 16.783 53.2712 16.7078 53.497 16.5573C53.7228 16.4067 53.8874 16.2162 53.9979 15.9858V6.03516H56.8154V18.5634Z" fill="white"/>
+                <path d="M64.4755 3.68758H61.6768V18.5629H58.9181V3.68758H56.1194V1.42041H64.4755V3.68758Z" fill="white"/>
+                <path d="M71.2768 18.5634H69.0708L68.8262 17.03H68.7651C68.1654 18.1871 67.267 18.7656 66.0675 18.7656C65.2373 18.7656 64.6235 18.4928 64.2284 17.9496C63.8333 17.4039 63.6357 16.5526 63.6357 15.3955V6.03751H66.4556V15.2308C66.4556 15.7906 66.5167 16.188 66.639 16.4256C66.7613 16.6631 66.9659 16.783 67.2529 16.783C67.4974 16.783 67.7326 16.7078 67.9584 16.5573C68.1842 16.4067 68.3488 16.2162 68.4593 15.9858V6.03516H71.2768V18.5634Z" fill="white"/>
+                <path d="M80.609 8.0387C80.4373 7.24849 80.1621 6.67699 79.7812 6.32186C79.4002 5.96674 78.8757 5.79035 78.2078 5.79035C77.6904 5.79035 77.2059 5.93616 76.7567 6.23014C76.3075 6.52412 75.9594 6.90747 75.7148 7.38489H75.6937V0.785645H72.9773V18.5608H75.3056L75.5925 17.3755H75.6537C75.8724 17.7988 76.1993 18.1304 76.6344 18.3774C77.0695 18.622 77.554 18.7443 78.0855 18.7443C79.038 18.7443 79.7412 18.3045 80.1904 17.4272C80.6396 16.5476 80.8653 15.1765 80.8653 13.3092V11.3266C80.8653 9.92722 80.7783 8.82892 80.609 8.0387ZM78.0243 13.1492C78.0243 14.0617 77.9867 14.7767 77.9114 15.2941C77.8362 15.8115 77.7115 16.1808 77.5328 16.3971C77.3564 16.6158 77.1165 16.724 76.8178 16.724C76.585 16.724 76.371 16.6699 76.1734 16.5594C75.9759 16.4512 75.816 16.2866 75.6937 16.0702V8.96062C75.7877 8.6196 75.9524 8.34209 76.1852 8.12337C76.4157 7.90465 76.6697 7.79646 76.9401 7.79646C77.2271 7.79646 77.4481 7.90935 77.6034 8.13278C77.7564 8.35855 77.8691 8.73485 77.9396 9.26636C78.0102 9.79787 78.0243 10.5528 78.0243 11.5335V13.1492Z" fill="white"/>
+                <path d="M84.8657 13.8712C84.8657 14.6755 84.8892 15.2776 84.9363 15.6798C84.9833 16.0819 85.0821 16.3736 85.2326 16.5594C85.3831 16.7428 85.6136 16.8345 85.9264 16.8345C86.3474 16.8345 86.639 16.6699 86.7942 16.343C86.9518 16.0161 87.0365 15.4705 87.0506 14.7085L89.4824 14.8519C89.4965 14.9601 89.5035 15.1106 89.5035 15.3011C89.5035 16.4582 89.186 17.3237 88.5534 17.8952C87.9208 18.4667 87.0247 18.7536 85.8676 18.7536C84.4777 18.7536 83.504 18.3185 82.9466 17.446C82.3869 16.5735 82.1094 15.2259 82.1094 13.4008V11.2136C82.1094 9.33452 82.3987 7.96105 82.9772 7.09558C83.5558 6.2301 84.5459 5.79736 85.9499 5.79736C86.9165 5.79736 87.6597 5.97375 88.1771 6.32888C88.6945 6.684 89.059 7.23433 89.2707 7.98457C89.4824 8.7348 89.5882 9.76961 89.5882 11.0913V13.2362H84.8657V13.8712ZM85.2232 7.96811C85.0797 8.14449 84.9857 8.43377 84.9363 8.83593C84.8892 9.2381 84.8657 9.84722 84.8657 10.6657V11.5641H86.9283V10.6657C86.9283 9.86133 86.9001 9.25221 86.846 8.83593C86.7919 8.41966 86.6931 8.12803 86.5496 7.95635C86.4062 7.78702 86.1851 7.7 85.8864 7.7C85.5854 7.70235 85.3643 7.79172 85.2232 7.96811Z" fill="white"/>
+              </g>
+            </svg>
+          </Link>
+        </div>
 
-        {/* Search Bar - Ultra Clean */}
-        <div className="flex-1 max-w-2xl mx-8">
-          <form onSubmit={handleSearch} className="flex items-center gap-0">
-            <div className="flex-1 flex items-center bg-transparent border border-white/10 rounded-full overflow-hidden hover:border-white/20 focus-within:border-yt-blue transition-colors">
+        {/* Search Bar - YouTube Exact */}
+        <div className="flex-1 flex items-center justify-center max-w-[728px] ml-10 mr-4">
+          <form onSubmit={handleSearch} className="flex w-full">
+            <div className="flex flex-1 h-10 border border-[#303030] rounded-l-full overflow-hidden bg-[#121212]">
               <input
                 type="text"
                 placeholder="Search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 bg-transparent px-5 py-2 text-sm text-yt-spec-text-primary placeholder-yt-spec-text-secondary/60 focus:outline-none"
+                className="flex-1 bg-transparent px-4 text-base text-white placeholder-[#888] focus:outline-none"
               />
-              <button
-                type="submit"
-                className="px-5 py-2 border-l border-white/10 hover:bg-white/5 transition-colors"
-                aria-label="Search"
-              >
-                <svg className="w-5 h-5 text-yt-spec-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
             </div>
+            <button
+              type="submit"
+              className="w-16 h-10 bg-[#222222] border border-l-0 border-[#303030] rounded-r-full flex items-center justify-center hover:bg-[#2a2a2a]"
+              aria-label="Search"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.87 20.17l-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+              </svg>
+            </button>
           </form>
+          <button className="ml-2 w-10 h-10 bg-[#181818] rounded-full flex items-center justify-center hover:bg-[#2a2a2a]">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            </svg>
+          </button>
         </div>
 
-        {/* User Actions - Minimal Icons */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Right Icons - YouTube Exact */}
+        <div className="flex items-center gap-2">
           {user ? (
             <>
-              <button 
-                className="p-2 hover:bg-white/5 rounded-full transition-colors" 
-                aria-label="Create"
-                title="Create"
-              >
-                <svg className="w-5 h-5 text-yt-spec-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <button className="p-2 hover:bg-[#222] rounded-full">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"/>
                 </svg>
               </button>
-              <button 
-                className="p-2 hover:bg-white/5 rounded-full transition-colors relative" 
-                aria-label="Notifications"
-                title="Notifications"
-              >
-                <svg className="w-5 h-5 text-yt-spec-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              <button className="p-2 hover:bg-[#222] rounded-full relative">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M10 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm10-2.65V19H4v-1.65l2-1.88v-5.15C6 7.4 7.56 5.1 10 4.34v-.38c0-1.42 1.49-2.5 2.99-1.76.65.32 1.01 1.03 1.01 1.76v.39c2.44.75 4 3.06 4 5.98v5.15l2 1.87zm-1 .42l-2-1.88v-5.47c0-2.47-1.19-4.36-3.13-5.1-1.26-.53-2.64-.5-3.84.03C8.15 6.11 7 7.99 7 10.42v5.47l-2 1.88V18h14v-.23z"/>
                 </svg>
               </button>
-              <div className="flex items-center gap-3 ml-1 pl-3 border-l border-white/10">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer hover:ring-2 hover:ring-white/20 transition-all">
-                  {user.userName ? user.userName[0].toUpperCase() : 'U'}
-                </div>
-                <button
-                  onClick={onLogout}
-                  className="text-sm text-yt-blue hover:text-blue-400 font-medium transition-colors"
-                >
-                  Sign out
-                </button>
-              </div>
+              <button className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center font-medium hover:ring-2 hover:ring-gray-600">
+                {user.userName ? user.userName[0].toUpperCase() : 'U'}
+              </button>
             </>
           ) : (
             <Link
               to="/login"
-              className="flex items-center gap-2 px-4 py-1.5 border border-white/20 hover:bg-white/5 rounded-full transition-all text-sm font-medium text-yt-blue"
+              className="flex items-center gap-1 px-3 py-1.5 border border-[#3ea6ff] text-[#3ea6ff] rounded-full hover:bg-[#263850] font-medium text-sm"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
               </svg>
               Sign in
             </Link>

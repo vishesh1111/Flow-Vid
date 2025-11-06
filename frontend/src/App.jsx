@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VideoPlayer from './pages/VideoPlayer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -58,6 +59,7 @@ function App() {
         <Navbar user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/watch/:videoId" element={<VideoPlayer />} />
           <Route 
             path="/login" 
             element={user ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} 
